@@ -4,7 +4,7 @@ const livrosRouter = require('./routes/livraria.routes');
 const connection = require('./configDb/db');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 
 app.use(express.json());
