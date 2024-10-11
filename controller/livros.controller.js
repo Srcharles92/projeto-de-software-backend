@@ -1,4 +1,6 @@
 // controllers/livrosController.js
+const { error } = require('console');
+const connection = require('../configDb/db');
 const queryExe = require('../configDb/queryExe'); // Importando a conexão com o banco de dados
 
 
@@ -12,6 +14,25 @@ class livroController {
         } catch (error) {
             next(error);
         }
+
+        /*function findUserByPk(connection, bookId) {
+                const query ='Select * from livros WHERE id = ?';
+
+            connection.execute(query,[bookId], (error, results) => {
+                if(error){
+                    returnconsole.error('Erro na consulta: ' + error);
+                }
+
+                if(results.lenght > 0){
+                    console.log('Livro encontrado: ', results[0]);
+                } else{
+                    console.log('Livro não encontrado')
+                }
+
+
+            })
+
+            }*/
     }
 
     static async getAll(req, res, next) {
@@ -38,16 +59,42 @@ class livroController {
         } catch (error) {
             next(error);
         }
-    };7
+    };
 
-    static async delete(req, res, next) {
+
+    static async delete(req, res, next) { // tomar cuidado para que a fazendo a mesma chamada não tenha o m,esmo efeito 
         try {
-            const [livros] = await connection.query('DELETE FROM livros WHERE title;');
-            res.json(livros);
+            // Recuperar o livro pelo ID passado na requisição
+            function deleteBookById(connection, bookId) {
+                const query = 'DELETE FROM livros WHERE id = ?';
+                
+                connection.execute(query, [bookId], (err, results) => {
+                  if (err) {
+                    return console.error('Erro na consulta: ' + err);
+                  }
+              
+                  if (results.affectedRows > 0) {
+                    console.log(`Livro com ID ${bookId} excluído com sucesso.`);
+                  } else {
+                    console.log(`Livro com ID ${bookId} não encontrado.`);
+                  }
+                });
+              }
+
+              
+
+            // remover o livro do BD
+            await livro.destroy({
+                Where: { id: livroId },
+            });
+
+            res.json({
+                mensagem: `Livro ${req.params.id} removido com sucesso!`,
+            });
         } catch (error) {
             next(error);
         }
-    }
+    };
 
 
 
