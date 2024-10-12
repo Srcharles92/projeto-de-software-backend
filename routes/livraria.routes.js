@@ -18,7 +18,7 @@ router.get('/livros/:id', livrosController.getOne);
 
 
 // rota para atualizar um livro (PUT)
-router.put('/livros/:id', livrosController.put);
+router.patch('/livros/:id', livrosController.patch);
 
 
 // rota para deletar um livro (DELETE)
